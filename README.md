@@ -1,4 +1,3 @@
-# Systèe d'authentification avec php et MySQL
+# Système d'authentification avec php et MySQL
 
-Merci de suivre le tutriel 
-[https://www.xarala.co/blog/guide-complet-systeme-dauthentification-avec-php-et-mysql/](https://www.xarala.co/blog/guide-complet-systeme-dauthentification-avec-php-et-mysql/)
+Merci de suivre le tutriel dans le fichier ".pdf"
