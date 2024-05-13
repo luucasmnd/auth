@@ -1,5 +1,4 @@
 <?php
-
 include("config.php");
 
 $message = '';
@@ -8,15 +7,32 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE username = :username";
+    // Vérifier si l'entrée est une adresse e-mail ou un nom d'utilisateur
+    if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        // Recherche de l'utilisateur par adresse e-mail
+        $sql = "SELECT * FROM users WHERE email = :email";
+    } else {
+        // Recherche de l'utilisateur par nom d'utilisateur
+        $sql = "SELECT * FROM users WHERE username = :username";
+    }
+
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['username' => $username]);
+
+    // Lié le paramètre approprié en fonction du type d'entrée de l'utilisateur
+    if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        $stmt->execute(['email' => $username]);
+    } else {
+        $stmt->execute(['username' => $username]);
+    }
+
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
         session_start();
         $_SESSION['user_id'] = $user['id'];
+	$_SESSION['user_email'] = $user['email']; // Stocker l'adresse e-mail de l'utilisateur dans la session
         header('Location: dashboard.php');
+        exit;
     } else {
         $message = 'Mauvais identifiants';
     }
@@ -30,7 +46,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
     <style>
-        body {
+ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
@@ -57,7 +73,7 @@ label {
     color: #555;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], input[type="email"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -101,6 +117,12 @@ p {
         <div>
             <label for="username">Nom d'utilisateur:</label>
             <input type="text" id="username" name="username">
+        </div>
+
+        <!-- Champ pour l'adresse e-mail -->
+        <div>
+            <label for="email">Adresse e-mail:</label>
+            <input type="email" id="email" name="email">
         </div>
 
         <div>

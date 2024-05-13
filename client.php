@@ -6,13 +6,6 @@ if (!isset($_SESSION['user_id'])) {
     header('Location:login.php');
     exit;
 }
-
-// Vérifier si l'adresse e-mail de l'utilisateur se termine par "@benassur.com"
-$user_email = $_SESSION['user_email'];
-if (substr($user_email, -13) !== "@benassur.com") {
-    header('Location:client.php'); // Rediriger vers la page client.php
-    exit;
-}
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +13,7 @@ if (substr($user_email, -13) !== "@benassur.com") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de bord</title>
+    <title>Page Client</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,7 +21,7 @@ if (substr($user_email, -13) !== "@benassur.com") {
             margin: 0;
             padding: 0;
         }
-        .dashboard-container {
+        .container {
             max-width: 800px;
             margin: 50px auto;
             background-color: #fff;
@@ -53,9 +46,9 @@ if (substr($user_email, -13) !== "@benassur.com") {
 </head>
 <body>
 
-<div class="dashboard-container">
-    <h2>Bienvenue sur votre tableau de bord</h2>
-    <p>Vous pouvez maintenant accéder à toutes les fonctionnalités réservées à nos utilisateurs autorisés.</p>
+<div class="container">
+    <h2>Accès non autorisé</h2>
+    <p>Autorisation accordé uniquement aux services client.</p>
     <a href="logout.php">Se déconnecter</a>
 </div>
 
